@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
 public class ItemPedido implements Serializable{
@@ -21,7 +22,7 @@ public class ItemPedido implements Serializable{
 
     }
 
-    public ItemPedido(Produto produto, Pedido pedido, Double desconto, Integer quantidade, Double preco) {
+    public ItemPedido(Pedido pedido, Produto produto, Double desconto, Integer quantidade, Double preco) {
         super();
         id.setPedido(pedido);
         id.setProduto(produto);
@@ -30,6 +31,7 @@ public class ItemPedido implements Serializable{
         this.preco = preco;
     }
 
+    @JsonIgnore
     public Pedido getPedido(){
         return id.getPedido();
     }
@@ -62,5 +64,17 @@ public class ItemPedido implements Serializable{
         this.preco = preco;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ItemPedido that = (ItemPedido) o;
+        return Objects.equals(id, that.id);
+    }
 
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id);
+    }
 }

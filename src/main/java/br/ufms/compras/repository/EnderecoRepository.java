@@ -7,6 +7,4 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface EnderecoRepository extends JpaRepository<Endereco, Long> {
 
-    @Query()
-    Categoria buscarCategoria();
 }

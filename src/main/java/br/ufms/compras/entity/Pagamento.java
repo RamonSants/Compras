@@ -4,13 +4,14 @@ import br.ufms.compras.entity.enumeration.EstadoPagamentoEnum;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "tb_pagamento")
 @Inheritance(strategy = InheritanceType.JOINED)
 @SequenceGenerator(name = "seq_pagamento", sequenceName = "seq_pagamento")
-public abstract class Pagamento {
+public class Pagamento implements Serializable {
 
     @Id
     @Column(name = "pa_id")

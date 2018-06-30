@@ -16,6 +16,10 @@ public class ItemPedidoPK implements Serializable{
     @JoinColumn(name = "pe_id")
     private Pedido pedido;
 
+    public ItemPedidoPK(){
+
+    }
+
     public Produto getProduto() {
         return produto;
     }

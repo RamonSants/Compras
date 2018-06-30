@@ -23,6 +23,9 @@ public class Pedido implements Serializable{
     @Column(name = "pe_instante")
     private Date instante;
 
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido")
+    private Pagamento pagamento;
+
     @ManyToOne
     @JoinColumn(name = "en_id")
     private Endereco enderecoDeEntrega;
@@ -30,9 +33,6 @@ public class Pedido implements Serializable{
     @ManyToOne
     @JoinColumn(name = "cl_id")
     private Cliente cliente;
-
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "pedido")
-    private Pagamento pagamento;
 
     @OneToMany(mappedBy = "id.pedido")
     private Set<ItemPedido> itens = new HashSet<>();
@@ -46,6 +46,13 @@ public class Pedido implements Serializable{
         this.instante = instante;
         this.enderecoDeEntrega = enderecoDeEntrega;
         this.cliente = cliente;
+    }
+    public Set<ItemPedido> getItens() {
+        return itens;
+    }
+
+    public void setItens(Set<ItemPedido> itens) {
+        this.itens = itens;
     }
 
     public Long getId() {

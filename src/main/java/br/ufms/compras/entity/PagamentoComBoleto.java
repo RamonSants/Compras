@@ -12,14 +12,12 @@ import java.util.Date;
 @Table(name = "tb_pagamento_com_boleto")
 public class PagamentoComBoleto extends Pagamento {
 
-    private static final long serialVersionUID = 1L;
-
     @JsonFormat(pattern = "dd/MM/yyyy")
-    @Column(name = "pcb_data_vencimento")
+    @Column(name = "data_vencimento")
     private Date dataVencimento;
 
     @JsonFormat(pattern = "dd/MM/yyyy")
-    @Column(name = "pcb_data_pagamento")
+    @Column(name = "data_pagamento")
     private Date dataPagamento;
 
     public PagamentoComBoleto(){

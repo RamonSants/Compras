@@ -4,12 +4,13 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.*;
 
 @Entity
 @Table(name = "tb_produto")
 @SequenceGenerator(name = "seq_produto", sequenceName = "seq_produto")
-public class Produto {
+public class Produto implements Serializable {
 
     @Id
     @Column(name = "pr_id")
@@ -43,6 +44,15 @@ public class Produto {
         this.preco = preco;
     }
 
+    @JsonIgnore
+    public List<Pedido> getPedidos() {
+        List<Pedido> lista = new ArrayList<>();
+        for (ItemPedido x : itens) {
+            lista.add(x.getPedido());
+        }
+        return lista;
+    }
+
     public Long getId() {
         return id;
     }
@@ -73,6 +83,14 @@ public class Produto {
 
     public void setCategorias(List<Categoria> categorias) {
         this.categorias = categorias;
+    }
+
+    public Set<ItemPedido> getItens() {
+        return itens;
+    }
+
+    public void setItens(Set<ItemPedido> itens) {
+        this.itens = itens;
     }
 
     @Override

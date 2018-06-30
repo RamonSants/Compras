@@ -10,8 +10,6 @@ import javax.persistence.Table;
 @Table(name = "tb_pagamento_com_cartao")
 public class PagamentoComCartao extends Pagamento {
 
-    private static final long serialVersionUID = 1L;
-
     @Column(name = "pcc_numero_de_parcelas")
     private Integer numeroDeParcelas;
 

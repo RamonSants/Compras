@@ -46,7 +46,10 @@ public class ComprasApplication implements CommandLineRunner {
     @Autowired
     private PagamentoRepository pagamentoRepository;
 
-	@Override
+    @Autowired
+    private ItemPedidoRepository itemPedidoRepository;
+
+    @Override
 	public void run(String... args) throws Exception {
 		Categoria cat1 = new Categoria(null, "Informática");
 		Categoria cat2 = new Categoria(null, "Escritório");
@@ -58,12 +61,11 @@ public class ComprasApplication implements CommandLineRunner {
 		cat1.getProdutos().addAll(Arrays.asList(p1, p2, p3));
 		cat2.getProdutos().addAll(Arrays.asList(p2));
 
-		categoriaRepository.saveAll(Arrays.asList(cat1, cat2));
-
 		p1.getCategorias().addAll(Arrays.asList(cat1));
 		p2.getCategorias().addAll(Arrays.asList(cat2));
 		p3.getCategorias().addAll(Arrays.asList(cat1));
 
+        categoriaRepository.saveAll(Arrays.asList(cat1, cat2));
         produtoRepository.saveAll(Arrays.asList(p1, p2, p3));
 
         Estado est1 = new Estado(null, "Minas Gerais");
@@ -98,28 +100,30 @@ public class ComprasApplication implements CommandLineRunner {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm");
 
         Pedido ped1 = new Pedido(null, sdf.parse("30/08/2017 10:32"), e1, cli1);
-        Pedido ped2 = new Pedido(null, sdf.parse("10/10/2017 19:35"), e1, cli1);
+        Pedido ped2 = new Pedido(null, sdf.parse("10/10/2017 19:35"), e2, cli1);
 
         Pagamento pagto1 = new PagamentoComCartao(null, EstadoPagamentoEnum.QUITADO, ped1, 6);
         ped1.setPagamento(pagto1);
 
-        Pagamento pagto2 = new PagamentoComBoleto(null, EstadoPagamentoEnum.PENDENTE, ped1, sdf.parse("20/10/2017 19:35"));
-        ped1.setPagamento(pagto2);
+        Pagamento pagto2 = new PagamentoComBoleto(null, EstadoPagamentoEnum.PENDENTE, ped2,
+                sdf.parse("20/10/2017 00:00"), null);
+        ped2.setPagamento(pagto2);
 
         cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
 
         pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
         pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
 
-        ItemPedido ip1 = new ItemPedido(p1, ped1, 0.0, 1, 2.0);
-        ItemPedido ip2 = new ItemPedido();
-        ItemPedido ip3 = new ItemPedido();
+        ItemPedido ip1 = new ItemPedido(ped1, p1, 0.0, 1, 2000.0);
+        ItemPedido ip2 = new ItemPedido(ped1, p3, 0.00, 2, 80.00);
+        ItemPedido ip3 = new ItemPedido(ped2, p2, 100.00, 1, 800.00);
 
         ped1.getItens().addAll(Arrays.asList(ip1, ip2));
         ped2.getItens().addAll(Arrays.asList(ip3));
 
-        p1.getItens().addAll(Arrays.asList());
-
+        p1.getItens().addAll(Arrays.asList(ip1));
+        p1.getItens().addAll(Arrays.asList(ip3));
+        p1.getItens().addAll(Arrays.asList(ip2));
 
     }
 }

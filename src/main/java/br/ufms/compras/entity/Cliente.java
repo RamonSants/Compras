@@ -22,12 +22,12 @@ public class Cliente implements Serializable{
     @Column(name = "cl_email")
     private String email;
 
-    @Column(name = "cl_cpfCnpj")
+    @Column(name = "cl_cpf_cnpj")
     private String cpfCnpj;
 
-    @Column(name = "cl_tipo")
+    @Column(name = "cl_tipo_cliente")
     @Enumerated(EnumType.STRING)
-    private TipoClienteEnum tipo;
+    private TipoClienteEnum tipoCliente;
 
     @OneToMany(mappedBy = "cliente")
     private List<Endereco> enderecos = new ArrayList<>();
@@ -43,12 +43,12 @@ public class Cliente implements Serializable{
         
     }
 
-    public Cliente(Long id, String nome, String email, String cpfCnpj, TipoClienteEnum tipo) {
+    public Cliente(Long id, String nome, String email, String cpfOuCnpj, TipoClienteEnum tipoCliente) {
         this.id = id;
         this.nome = nome;
         this.email = email;
-        this.cpfCnpj = cpfCnpj;
-        this.tipo = tipo;
+        this.cpfCnpj = cpfOuCnpj;
+        this.tipoCliente = tipoCliente;
     }
 
     public Long getId() {
@@ -76,11 +76,11 @@ public class Cliente implements Serializable{
     }
 
     public TipoClienteEnum getTipo() {
-        return tipo;
+        return tipoCliente;
     }
 
     public void setTipo(TipoClienteEnum tipo) {
-        this.tipo = tipo;
+        this.tipoCliente = tipo;
     }
 
     public String getCpfCnpj() {
